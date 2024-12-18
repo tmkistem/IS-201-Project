@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodgers Trivia Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #005A9C; /* Dodgers blue */
+            color: #FFFFFF;
+            text-align: center;
+            padding: 20px;
+        }
+        .quiz-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .question {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        .options button {
+            display: block;
+            background: #FFD700; /* Gold for emphasis */
+            color: #000;
+            border: none;
+            padding: 10px;
+            margin: 10px auto;
+            width: 100%;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .options button:hover {
+            background: #FFC107; /* Slightly darker gold */
+        }
+        .score {
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+        .feedback {
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+        .back-link {
+            margin-top: 20px;
+            display: inline-block;
+            text-decoration: none;
+            color: #FFD700; /* Gold */
+            font-weight: bold;
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            border: 2px solid #FFD700;
+            border-radius: 5px;
+        }
+        .back-link:hover {
+            background-color: #FFD700;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Dodgers Trivia Game</h1>
+        <p class="question">Loading question...</p>
+        <div class="options">
+            <button onclick="checkAnswer(0)">Option 1</button>
+            <button onclick="checkAnswer(1)">Option 2</button>
+            <button onclick="checkAnswer(2)">Option 3</button>
+            <button onclick="checkAnswer(3)">Option 4</button>
+        </div>
+        <p class="feedback"></p>
+        <p class="score">Score: 0</p>
+    </div>
+    <a href="worldseriesstats.html" class="back-link">Back to World Series Stats</a>
+    <script>
+        // Trivia questions
+        const questions = [
+            {
+                question: "Who was the Dodgers' 2024 World Series MVP?",
+                options: ["Shohei Ohtani", "Mookie Betts", "Freddie Freeman", "Clayton Kershaw"],
+                answer: 2
+            },
+            {
+                question: "How many home runs did Shohei Ohtani hit in 2024?",
+                options: ["45", "54", "50", "48"],
+                answer: 1
+            },
+            {
+                question: "Which Dodger set a record for 50+ home runs and 50+ stolen bases?",
+                options: ["Mookie Betts", "Shohei Ohtani", "Freddie Freeman", "Max Muncy"],
+                answer: 1
+            },
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        // Load a question
+        function loadQuestion() {
+            const questionEl = document.querySelector('.question');
+            const optionsEl = document.querySelectorAll('.options button');
+            const feedbackEl = document.querySelector('.feedback');
+            
+            feedbackEl.textContent = ""; // Clear feedback
+            const question = questions[currentQuestion];
+            
+            questionEl.textContent = question.question;
+            optionsEl.forEach((button, index) => {
+                button.textContent = question.options[index];
+            });
+        }
+
+        // Check the user's answer
+        function checkAnswer(selected) {
+            const feedbackEl = document.querySelector('.feedback');
+            const scoreEl = document.querySelector('.score');
+            
+            if (selected === questions[currentQuestion].answer) {
+                feedbackEl.textContent = "Correct!";
+                feedbackEl.style.color = "#4CAF50"; // Green
+                score++;
+            } else {
+                feedbackEl.textContent = "Incorrect!";
+                feedbackEl.style.color = "#F44336"; // Red
+            }
+            
+            scoreEl.textContent = `Score: ${score}`;
+            currentQuestion++;
+            
+            if (currentQuestion < questions.length) {
+                setTimeout(loadQuestion, 1000); // Load next question after 1s
+            } else {
+                setTimeout(() => {
+                    feedbackEl.textContent = "Game Over! Refresh to play again.";
+                    feedbackEl.style.color = "#FFFFFF";
+                }, 1000);
+            }
+        }
+
+        // Initialize the game
+        loadQuestion();
+    </script>
+</body>
+</html>
